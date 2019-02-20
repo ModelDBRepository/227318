@@ -42,14 +42,14 @@ def plotBoilerplate( panelTitle, plotPos, xlabel = '', ylabel = '', xticks = [] 
 
 def panelB( fig ):
     dt = 0.0001
-    npts = int(1 + 25/dt)
+    npts = int(1+25/dt)
     tab = readXplot('Fig6_data.0.1234.xplot', 'Soma_Vm.0')
     #tab = tab[:50001]
     tab = tab[:npts]
     #ax = plotBoilerplate( 'B', (0,0), ylabel = 'Vm (mV)', xticks=range(6) )
     ax = plotBoilerplate( 'B', (0,0), ylabel = 'Vm (mV)', xticks=range(0,26,5) )
     t = np.array( range( len( tab ) ) ) * dt
-    print "LEN = ", len( tab )
+    print("LEN = ", len(tab))
     plt.plot( t, tab )
     plt.xlabel( "Time (s)", fontsize = 14, horizontalalignment='left', position = (0.02,25) )
 
@@ -114,11 +114,11 @@ def panelEFGH( fig ):
             valvector.append( values[0] )
         '''
         #valmatrix.append( valvector )
-        print site, max(valvector)
+        print(site, max(valvector))
         plotMatrix( fig, site, valvector, panelTitle )
 
 def plotMatrix( fig, site, vec, panelTitle ):
-    print 'COORDS = ', 3 + site%3 , site / 3
+    print('COORDS = ', 3 + site%3 , site / 3)
     ax = plt.subplot2grid( gridShape, (3 + site%3, site/3 ) )
     d = np.array( vec )
     d.shape = (5,5)
@@ -167,11 +167,11 @@ def readXplot( fname, plotname ):
                             flag = True
                         else:
                             flag = False
-                        #print line[11:20], flag
+                        #print(line[11:20], flag)
                     if  flag and not( line[0] == '%' or line[0] == '/'):
                         tab.append( float( line[:-1] ) * 1000 )
     except IOError:
-        print "NOTAB"
+        print( "NOTAB" )
         return 0
     return tab
 
@@ -191,7 +191,7 @@ def readVm( fname ):
                     if  flag and not( line[0] == '%' or line[0] == '/'):
                         tab.append( float( line[:-1] ) * 1000 )
     except IOError:
-        print "NOTAB"
+        print("NOTAB")
         return 0
     return tab
 

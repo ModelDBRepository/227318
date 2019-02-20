@@ -6,7 +6,6 @@ import moose
 # Bdot = k1b.A - k2b.B
 #
 
-
 def parseExpr( expr, params, hasCa ):
     if hasCa:
         expr = expr.replace( 'Ca', 'x0' )
@@ -56,9 +55,9 @@ def makeChemProto( name, Aexpr, Bexpr, params ):
     Bdot.expr = parseExpr( Bexpr, params, False )
     CaStim.expr = 'x2 * exp( -((x0 - t)^2)/(2* ' + str(sw*sw) + ') )'
 
-    #print Adot.expr
-    #print Bdot.expr
-    #print CaStim.expr
+    #print(Adot.expr)
+    #print(Bdot.expr)
+    #print(CaStim.expr)
 
     # Connections
     Adot.x.num = 4
@@ -71,7 +70,7 @@ def makeChemProto( name, Aexpr, Bexpr, params ):
     Bdot.x.num = 3
     if name[:5] == 'negFF':
         moose.connect( Ca, 'nOut', Bdot.x[0], 'input' )
-        print 'Doing special msg'
+        print('Doing special msg')
     else:
         moose.connect( A, 'nOut', Bdot.x[0], 'input' )
     moose.connect( B, 'nOut', Bdot.x[1], 'input' )
@@ -227,13 +226,13 @@ def makeNegFF( args ):
 
 if __name__ == '__main__':
     moose.Neutral( '/library' )
-    print "Making Bistable model"
+    print("Making Bistable model")
     makeBis()
-    print "Making FHN model"
+    print("Making FHN model")
     makeFHN()
-    print "Making Negative Feedback model"
+    print("Making Negative Feedback model")
     makeNegFB()
-    print "Making Negative Feedforward models"
+    print("Making Negative Feedforward models")
     makeNegFF()
 
 

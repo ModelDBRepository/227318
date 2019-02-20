@@ -1,9 +1,7 @@
 # Generates time-series response to a Ca pulse for each of the models. No
 # diffusion involved.
 
-import sys
 import numpy as np
-import pylab
 import matplotlib.pyplot as plt
 import moose
 import abstrModelEqns9 as ame
@@ -22,7 +20,7 @@ def singleCompt( name, params ):
     steptime = 50
 
     CaStim.expr += ' + x2 * (t > 100+' + str( runtime ) + ' ) * ( t < 100+' + str( runtime + steptime ) +  ' )'
-    print CaStim.expr
+    print( CaStim.expr )
     tab = moose.Table2( '/model/' + name + '/Atab' )
     #for i in range( 10, 19 ):
         #moose.setClock( i, 0.01 )
@@ -153,9 +151,9 @@ def runPanelDEFG( name, dist, seqDt, numSpine, seq, stimAmpl ):
         #moose.setClock( i, 0.02 )
     A = moose.vec( '/model/chem/dend/A' )
     Z = moose.vec( '/model/chem/dend/Z' )
-    print moose.element( '/model/chem/dend/A/Adot' ).expr
-    print moose.element( '/model/chem/dend/B/Bdot' ).expr
-    print moose.element( '/model/chem/dend/Ca/CaStim' ).expr
+    print(moose.element( '/model/chem/dend/A/Adot' ).expr)
+    print(moose.element( '/model/chem/dend/B/Bdot' ).expr)
+    print(moose.element( '/model/chem/dend/Ca/CaStim' ).expr)
     phase = moose.vec( '/model/chem/dend/phase' )
     ampl = moose.vec( '/model/chem/dend/ampl' )
     vel = moose.vec( '/model/chem/dend/vel' )
@@ -165,13 +163,13 @@ def runPanelDEFG( name, dist, seqDt, numSpine, seq, stimAmpl ):
     phase.nInit = 10000
     Z.nInit = 0
     for j in range( numSpine ):
-        k = blanks + j * stride
+        k = int(blanks + j * stride)
         Z[k].nInit = 1
         phase[k].nInit = preStim + seq[j] * seqDt
     moose.reinit()
     runtime = 50
     snapshot = preStim + seqDt * (numSpine - 0.8)
-    print snapshot
+    print( snapshot )
     #snapshot = 26
     moose.start( snapshot )
     avec = moose.vec( '/model/chem/dend/A' ).n
