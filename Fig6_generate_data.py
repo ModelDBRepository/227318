@@ -104,9 +104,9 @@ def attachStimulus( fname, rdes ):
     timeExpr = 'cos( 6.283 * t * ' + str(params['thetaFreq']/2.0) + ' )^2'
     rateExpr = str( 2.0 * params['thetaGabaSpikeRate'])
     thetaGaba.expr = str( params['baseGabaSpikeRate']) + ' + ' + rateExpr + ' * ' +  timeExpr
-    print thetaGaba.expr,
+    print(thetaGaba.expr, end=' ')
     gabar = moose.wildcardFind( '/model/elec/#/GABA' )
-    print "     NUM-GABA = ", len(gabar)
+    print("     NUM-GABA = ", len(gabar))
     rsGabar = moose.RandSpike( '/model/elec/gabaSpike', len( gabar ) )
     moose.connect( thetaGaba, 'valueOut', rsGabar, 'setRate', 'OneToAll' )
     gabaSpikes = moose.vec( '/model/elec/gabaSpike' )
@@ -146,9 +146,9 @@ def attachStimulus2( fname ):
 
 def dumpPlots( fname ):
     currt = moose.element( '/clock' ).currentTime
-    #print "os.rename( " + fname + ".xplot", fname + ".old )"
+    #print("os.rename( " + fname + ".xplot", fname + ".old )")
     os.rename( fname + ".xplot", fname + ".old" )
-    print 'Current sim time = ', currt, ", user time = ", time.time() - realStartTime
+    print('Current sim time = ', currt, ", user time = ", time.time() - realStartTime)
     sys.stdout.flush()
     fd = open( fname + ".xplot", "w" )
     for ii in params:
@@ -213,14 +213,14 @@ def printStuff( sequence, firstSpineOnCompt, rdes ):
             #headCa = moose.element( headPath + '/Ca_conc' )
             #headGlu = moose.element( headPath + '/glu' )
             #headNmda = moose.element( headPath + '/NMDA' )
-            print i, j, spikeIdx, head.name, rdes.elecid.parentCompartmentOfSpine[head].name
+            print( i, j, spikeIdx, head.name, rdes.elecid.parentCompartmentOfSpine[head].name)
 
 def main():
     global rdes
     global params
     sequence = [0,1,2,3,4]
 
-    #print params['sequence'], sequence
+    #print(params['sequence'], sequence)
     for ii in range( len( sys.argv ) ):
         if sys.argv[ii][:2] == '--':
             argName = sys.argv[ii][2:]
@@ -243,7 +243,7 @@ def main():
 
     sequence = convertSeq( params['sequence'] )
     fname = baseFname + '.' +  str( int( params['fnumber'] ) ) + '.' + str( int( params['sequence'] ) )
-    print params['sequence'], sequence, fname
+    print(params['sequence'], sequence, fname)
 
     diffusionLength = params['diffusionLength']
     dendLength = params['dendLength']
@@ -399,7 +399,7 @@ def main():
     rdes.buildModel()
     #moose.showfields( '/model/chem/dend/DEND/PKA/KA' )
     #moose.le( '/model/elec' )
-    #print "NUM PLOTS = ", len( rdes.plotNames)
+    #print("NUM PLOTS = ", len( rdes.plotNames))
     firstSpineOnCompt = attachStimulus( fname, rdes )
 
     fd = open( fname + ".xplot", "w" )
@@ -412,12 +412,12 @@ def main():
     periodicOutput = moose.PyRun( '/model/graphs/periodicOutput' )
     periodicOutput.tick = 19
     periodicOutput.runString = 'dumpPlots( "' + fname + '" )'
-    periodicOutput.initString = 'print "Starting PeriodicOutput"'
+    periodicOutput.initString = 'print("Starting PeriodicOutput")'
 
     spatOutput = moose.PyRun( '/model/graphs/spatOutput' )
     spatOutput.tick = 18
     spatOutput.runString = 'dumpSpatialPlots( "' + fname + '" )'
-    spatOutput.initString = 'print "Starting Spatial Output"'
+    spatOutput.initString = 'print("Starting Spatial Output")'
     moose.reinit()
     moose.seed( 1 )
 
@@ -432,8 +432,8 @@ def main():
     '''
     ni = len( spikes ) / 8.0
     spikeStartIndices = [ int( (i + 0.5) * ni ) for i in range( 8 ) ]
-    print "########## len(spikes) = ", len(spikes)
-    print "########## spikeStartIndices = ", spikeStartIndices
+    print("########## len(spikes) = ", len(spikes))
+    print("########## spikeStartIndices = ", spikeStartIndices)
     '''
 
     stimIntervalTime = params['seqDt'] - params['stimBurstTime']
