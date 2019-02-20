@@ -112,7 +112,7 @@ def panelBCsingleCompt( fig ):
     plt.plot( t, cavec ) 
     ax = plotBoilerplate( 'C', (2,1), 'Time (s)', 'MAPK-P ($\mu$M)', xticks )
     plt.plot( t, mapkPvec ) 
-    print "Finished panelBC for single Compt dynamics"
+    print( "Finished panelBC for single Compt dynamics" )
     moose.delete( '/model' )
 
 def runStimulus( sequence ):
@@ -129,10 +129,10 @@ def runStimulus( sequence ):
         currt = clock.currentTime
         if ( t > currt ):
             moose.start( t - currt )
-            print "At t = ", t, "; assigning CaInput[", index, "] = ", conc
+            print( "At t = ", t, "; assigning CaInput[", index, "] = ", conc)
             Ca_input[ index ].concInit = conc
     moose.start(params['postStimTime'] )
-    print "Finished stimulus run at t = ", clock.currentTime
+    print( "Finished stimulus run at t = ", clock.currentTime )
 
 def runAndDisplaySumPlot( seq, label, pos, chemPlotDt ):
     runStimulus( seq )
@@ -144,7 +144,7 @@ def runAndDisplaySumPlot( seq, label, pos, chemPlotDt ):
     t = np.arange( 0, len( mapkPvec ) * chemPlotDt, chemPlotDt )
     xt = np.arange( 0, len( mapkPvec ) * chemPlotDt, 50 )
     xticks = [ str(i) for i in xt ]
-    print "XT = ", xt, xticks
+    print( "XT = ", xt, xticks )
     ax = plotBoilerplate( label, pos, 'Time (s)', 'MAPK-P ($\mu$M)', xticks )
     plt.plot( t, mapkPvec ) 
 
@@ -155,13 +155,13 @@ def runAndDisplay( seq, label, pos, chemPlotDt, maxy ):
     blanks = params['blankVoxelsAtEnd']
     step = int( round( params['seqDx'] / params['spineSpacing'] ) )
     plotIndices = [int(parentVoxel[blanks + i * step]) for i in range(len(seq)) ]
-    print plotIndices
+    print( plotIndices )
     t = np.arange( 0, len( mapk[0].vector ) * chemPlotDt, chemPlotDt )
     ax = plotBoilerplate( label, pos, 'Time (s)', 'MAPK-P ($\mu$M)')
     maxx = max( t )
     xt = np.arange( 0, maxx, 20 )
     xticks = [ str(int(i)) for i in xt ]
-    print "XT = ", xt, xticks
+    print( "XT = ", xt, xticks )
 
     ax.xaxis.set_ticks( xt )
     ax.set_xticklabels( xticks )
@@ -170,7 +170,7 @@ def runAndDisplay( seq, label, pos, chemPlotDt, maxy ):
         plt.plot( t, mapk[i].vector * 1000 )
 
 def panelEFspatialSeq( fig ):
-    print "Starting Panel EF"
+    print( "Starting Panel EF" )
     moose.seed( int(params['seed']) )
     rdes = rd.rdesigneur(
         useGssa = False,
@@ -198,10 +198,10 @@ def panelEFspatialSeq( fig ):
     setDiffConst( 'reg_phosphatase', 'diffConstPP' )
     setDiffConst( 'inact_phosphatase', 'diffConstPP' )
     moose.element( '/library/chem/dend/DEND/Ca_activate_Raf' ).Kf = params['CaActivateRafKf']
-    print "Set up rdesigneur"
+    print( "Set up rdesigneur" )
 
     rdes.buildModel()
-    print "MODEL BUILT"
+    print( "MODEL BUILT" )
 
     ################################################################
     # Run and display the stimulus
